@@ -5,6 +5,7 @@
   "minimum_chrome_version": "23",
   "icons": {
     "16": "assets/icons/icon_16.png",
+    "48": "assets/icons/icon_48.png",
     "128": "assets/icons/icon_128.png"
   },
   "app": {
