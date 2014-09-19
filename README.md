@@ -4,5 +4,17 @@
 ## Run
 
 ```
-chrome --load-and-launch-app="$(pwd)/app" pizza-collaboration.bpmn
+grunt
+```
+
+```
+chrome --load-and-launch-app="$(pwd)/dist" resources/simple.bpmn
+```
+
+
+
+## Continuous deployment
+
+```
+grunt auto-build
 ```

@@ -1,45 +1,71 @@
 'use strict';
 
+// configures browsers to run test against
+// any of [ 'PhantomJS', 'Chrome', 'Firefox', 'IE']
+var CHROME_OPEN = ((process.env.CHROME_OPEN || '').replace(/^\s+|\s+$/, '') || 'PhantomJS').split(/\s*,\s*/g);
+
 module.exports = function (grunt) {
 
   require('load-grunt-tasks')(grunt);
 
-
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
-    watch: { },
+    config: {
+      dist: 'dist',
+      src: 'app',
+      chrome_reload: 'chrome --load-and-launch-app="$(pwd)/dist" resources/simple.bpmn'
+    },
+
+    watch: {
+      app: {
+        files: [ '<%= config.dist %>/**/*' ],
+        tasks: [ 'open' ]
+      }
+    },
 
     copy: {
+
+      app: {
+        files: [{
+          expand: true,
+          cwd: '<%= config.src %>',
+          dest: '<%= config.dist %>/',
+          src: [ '**/*', '!vendor' ]
+        }]
+      },
+
       diagram_js: {
         files: [{
           src: require.resolve('diagram-js/assets/diagram.css'),
-          dest: 'app/vendor/diagram-js/diagram.css'
+          dest: '<%= config.dist %>/vendor/diagram-js/diagram.css'
         }]
       }
     },
 
-    browserify: {
-      options: {
-        browserifyOptions: {
-          builtins: false
-        },
-        bundleOptions: {
-          detectGlobals: false,
-          insertGlobalVars: []
-        },
-        require: [
-          'bpmn-js/lib/Modeler',
-          'jquery'
-        ]
-      },
+    exec: {
+      chrome_reload: '<%= config.chrome_reload %>'
+    },
 
+    browserify: {
       modeler: {
+        options: {
+          browserifyOptions: {
+            builtins: false
+          },
+          bundleOptions: {
+            detectGlobals: false,
+            insertGlobalVars: []
+          },
+          require: [
+            'bpmn-js/lib/Modeler',
+            'jquery'
+          ]
+        },
         files: {
-          'app/vendor/bpmn-js/bpmn.js': [ 'js/bpmn.js' ]
+          '<%= config.dist %>/vendor/bpmn-js/bpmn.js': [ '<%= config.src %>/vendor/bpmn-js/bpmn.js' ]
         }
       },
-
       watchModeler: {
         options: {
           browserifyOptions: {
@@ -56,7 +82,7 @@ module.exports = function (grunt) {
           watch: true
         },
         files: {
-          'app/vendor/bpmn-js/bpmn.js': [ 'js/bpmn.js' ]
+          '<%= config.dist %>/vendor/bpmn-js/bpmn.js': [ '<%= config.src %>/vendor/bpmn-js/bpmn.js' ]
         }
       }
     },
@@ -64,9 +90,11 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', [ ]);
 
+  grunt.registerTask('open', 'exec:chrome_reload');
+
   grunt.registerTask('build', [ 'copy', 'browserify:modeler' ]);
 
-  grunt.registerTask('auto-build', [ 'build', 'browserify:watchModeler', 'watch' ]);
+  grunt.registerTask('auto-build', [ 'build', 'browserify:watchModeler', 'open', 'watch']);
 
   grunt.registerTask('default', [ 'test', 'build' ]);
 };
