@@ -1,7 +1,11 @@
-# bpmn-js as a chrome app
+# bpmn-js packaged as a chrome app
+
+This project embeds and packages [bpmn-js](https://github.com/bpmn-io/bpmn-js) as a chrome app and makes available locally.
 
 
-## Run
+## Build
+
+#### Package + Run
 
 ```
 grunt
@@ -11,9 +15,7 @@ grunt
 chrome --load-and-launch-app="$(pwd)/dist" resources/simple.bpmn
 ```
 
-
-
-## Continuous deployment
+#### Development Setup
 
 ```
 grunt auto-build
@@ -21,7 +23,10 @@ grunt auto-build
 
 
 
-## A simple binary
+### Integration
+
+
+#### A simple binary
 
 (put to `/usr/local/bin` or the like)
 
