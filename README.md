@@ -4,6 +4,8 @@ This project embeds and packages [bpmn-js](https://github.com/bpmn-io/bpmn-js) a
 
 ![screenshot of the bpmn-js chrome app](https://raw.githubusercontent.com/bpmn-io/bpmn-js-chrome/master/docs/bpmn-io-chrome.png)
 
+[Install it from the Chrome Webstore](https://chrome.google.com/webstore/detail/bpmnio/jmbkdhnceanbfdnmmelnkaifipiegngo)
+
 ## Build
 
 #### Package + Run
