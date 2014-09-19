@@ -30,17 +30,7 @@ function errorHandler(e) {
 }
 
 function displayEntryData(theEntry) {
-  if (theEntry.isFile) {
-    chrome.fileSystem.getDisplayPath(theEntry, function(path) {
-      document.querySelector('#file_path').value = path;
-    });
-    theEntry.getMetadata(function(data) {
-      document.querySelector('#file_size').textContent = data.size;
-    });
-  }
-  else {
-    document.querySelector('#file_path').innerText = theEntry.name;
-  }
+  document.querySelector('#file_path').innerText = theEntry.name;
 }
 
 function readAsText(fileEntry, callback) {
@@ -194,6 +184,7 @@ saveFileButton.addEventListener('click', function(e) {
   var config = {type: 'saveFile', suggestedName: chosenEntry.name};
   chrome.fileSystem.chooseEntry(config, function(writableEntry) {
     saveXml(writableEntry);
+    displayEntryData(writableEntry);
   });
 });
 
