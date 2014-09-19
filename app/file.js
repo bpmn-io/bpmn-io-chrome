@@ -124,7 +124,7 @@ function loadInitialFile(launchData) {
 chooseFileButton.addEventListener('click', function(e) {
   var accepts = [{
     mimeTypes: ['text/*'],
-    extensions: ['js', 'css', 'txt', 'html', 'xml', 'tsv', 'csv', 'rtf']
+    extensions: ['bpmn', 'xml']
   }];
   chrome.fileSystem.chooseEntry({type: 'openFile', accepts: accepts}, function(theEntry) {
     if (!theEntry) {
