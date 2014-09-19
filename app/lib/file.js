@@ -83,15 +83,7 @@ function loadFileEntry(_chosenEntry) {
   chosenEntry = _chosenEntry;
   chosenEntry.file(function(file) {
     readAsText(chosenEntry, function(result) {
-      viewer.importXML(result, function(err) {
-
-        if (!err) {
-          console.log('success!');
-          viewer.get('canvas').zoom('fit-viewport');
-        } else {
-          console.log('something went wrong:', err);
-        }
-      });
+      viewXml(result);
     });
   });
 }
@@ -99,10 +91,8 @@ function loadFileEntry(_chosenEntry) {
 
 function loadInitialFile(launchData) {
   if (launchData && launchData.items && launchData.items[0]) {
-    debugger
     loadFileEntry(launchData.items[0].entry);
   } else {
-    debugger
     // see if the app retained access to an earlier file or directory
     chrome.storage.local.get('chosenFile', function(items) {
       if (items.chosenFile) {
@@ -119,6 +109,17 @@ function loadInitialFile(launchData) {
       }
     });
   }
+}
+
+function viewXml(xml) {
+  viewer.importXML(xml, function(err) {
+    if (!err) {
+      console.log('success!');
+      viewer.get('canvas').zoom('fit-viewport');
+    } else {
+      console.log('something went wrong:', err);
+    }
+  });
 }
 
 chooseFileButton.addEventListener('click', function(e) {
@@ -144,26 +145,16 @@ var dnd = new DnDFileController('body', function(data) {
   for (var i = 0; i < data.items.length; i++) {
     var item = data.items[i];
     if (item.kind == 'file' &&
-        item.type.match('*') &&
         item.webkitGetAsEntry()) {
       chosenEntry = item.webkitGetAsEntry();
       break;
     }
   };
 
-  if (!chosenEntry) {
-    output.textContent = "Sorry. That's not a text file.";
-    return;
-  }
-  else {
-    output.textContent = "";
-  }
-
   readAsText(chosenEntry, function(result) {
-    textarea.value = result;
+    viewXml(result);
   });
   // Update display.
-  saveFileButton.disabled = false;
   displayEntryData(chosenEntry);
 });
 
