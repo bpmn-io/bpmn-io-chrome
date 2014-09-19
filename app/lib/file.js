@@ -18,6 +18,7 @@ Updated: Joe Marini (joemarini@google.com)
 */
 
 var chosenEntry = null;
+var bpmnXml = null;
 var chooseFileButton = document.querySelector('#choose_file');
 var chooseDirButton = document.querySelector('#choose_dir');
 var saveFileButton = document.querySelector('#save_file');
@@ -38,8 +39,7 @@ function displayEntryData(theEntry) {
     });
   }
   else {
-    document.querySelector('#file_path').value = theEntry.fullPath;
-    document.querySelector('#file_size').textContent = "N/A";
+    document.querySelector('#file_path').innerText = theEntry.name;
   }
 }
 
@@ -78,10 +78,45 @@ function waitForIO(writer, callback) {
   setTimeout(reentrant, 100);
 }
 
+
+function writeFileEntry(writableEntry, opt_blob, callback) {
+  if (!writableEntry) {
+    output.textContent = 'Nothing selected.';
+    return;
+  }
+
+  writableEntry.createWriter(function(writer) {
+
+    writer.onerror = errorHandler;
+    writer.onwriteend = callback;
+
+    // If we have data, write it to the file. Otherwise, just use the file we
+    // loaded.
+    if (opt_blob) {
+      writer.truncate(opt_blob.size);
+      waitForIO(writer, function() {
+        writer.seek(0);
+        writer.write(opt_blob);
+      });
+    }
+    else {
+      chosenEntry.file(function(file) {
+        writer.truncate(file.fileSize);
+        waitForIO(writer, function() {
+          writer.seek(0);
+          writer.write(file);
+        });
+      });
+    }
+  }, errorHandler);
+}
+
+
 // for files, read the text content into the textarea
 function loadFileEntry(_chosenEntry) {
   chosenEntry = _chosenEntry;
   chosenEntry.file(function(file) {
+    displayEntryData(file);
     readAsText(chosenEntry, function(result) {
       viewXml(result);
     });
@@ -111,6 +146,7 @@ function loadInitialFile(launchData) {
   }
 }
 
+
 function viewXml(xml) {
   viewer.importXML(xml, function(err) {
     if (!err) {
@@ -119,6 +155,22 @@ function viewXml(xml) {
     } else {
       console.log('something went wrong:', err);
     }
+  });
+}
+
+
+function saveXml(writableEntry) {
+  viewer.saveXML(function(err, result) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+
+    var bpmnXml = result;
+    var blob = new Blob([bpmnXml], {type: 'text/plain'});
+    writeFileEntry(writableEntry, blob, function(e) {
+      console.log('File saved');
+    });
   });
 }
 
@@ -138,6 +190,12 @@ chooseFileButton.addEventListener('click', function(e) {
   });
 });
 
+saveFileButton.addEventListener('click', function(e) {
+  var config = {type: 'saveFile', suggestedName: chosenEntry.name};
+  chrome.fileSystem.chooseEntry(config, function(writableEntry) {
+    saveXml(writableEntry);
+  });
+});
 
 // Support dropping a single file onto this app.
 var dnd = new DnDFileController('body', function(data) {
