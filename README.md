@@ -2,7 +2,7 @@
 
 This project embeds and packages [bpmn-js](https://github.com/bpmn-io/bpmn-js) as a chrome app and makes available locally.
 
-![screenshot of the bpmn-js chrome app](https://raw.githubusercontent.com/bpmn-io/bpmn-js-chrome/master/docs/app.png)
+![screenshot of the bpmn-js chrome app](https://raw.githubusercontent.com/bpmn-io/bpmn-js-chrome/master/docs/bpmn-io-chrome.png)
 
 ## Build
 
