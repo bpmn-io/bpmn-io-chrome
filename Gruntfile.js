@@ -18,9 +18,14 @@ module.exports = function (grunt) {
     },
 
     watch: {
-      app: {
+      dist: {
         files: [ '<%= config.dist %>/**/*' ],
         tasks: [ 'open' ]
+      },
+
+      app: {
+        files: [ '<%= config.src %>/**/*', '!<%= config.src %>/vendor/**/*' ],
+        tasks: [ 'copy:app' ]
       }
     },
 
@@ -31,7 +36,7 @@ module.exports = function (grunt) {
           expand: true,
           cwd: '<%= config.src %>',
           dest: '<%= config.dist %>/',
-          src: [ '**/*', '!vendor' ]
+          src: [ '**/*', '!vendor/**/*' ]
         }]
       },
 
