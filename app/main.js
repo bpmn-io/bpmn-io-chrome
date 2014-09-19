@@ -1,10 +1,4 @@
-/**
- * Listens for the app launching then creates the window
- *
- * @see http://developer.chrome.com/apps/app.runtime.html
- * @see http://developer.chrome.com/apps/app.window.html
- */
-chrome.app.runtime.onLaunched.addListener(function() {
+chrome.app.runtime.onLaunched.addListener(function(launchData) {
   // Center window on screen.
   var screenWidth = screen.availWidth;
   var screenHeight = screen.availHeight;
@@ -19,5 +13,8 @@ chrome.app.runtime.onLaunched.addListener(function() {
       left: Math.round((screenWidth-width)/2),
       top: Math.round((screenHeight-height)/2)
     }
+  }, function(win) {
+    win.contentWindow.launchData = launchData;
   });
+
 });
