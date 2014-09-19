@@ -2,7 +2,7 @@
 
 // configures browsers to run test against
 // any of [ 'PhantomJS', 'Chrome', 'Firefox', 'IE']
-var CHROME_OPEN = ((process.env.CHROME_OPEN || '').replace(/^\s+|\s+$/, '') || 'PhantomJS').split(/\s*,\s*/g);
+var CHROME_OPEN = (process.env.CHROME_OPEN || '').replace(/^\s+|\s+$/, '');
 
 module.exports = function (grunt) {
 
@@ -14,7 +14,7 @@ module.exports = function (grunt) {
     config: {
       dist: 'dist',
       src: 'app',
-      chrome_reload: 'chrome --load-and-launch-app="$(pwd)/dist" resources/simple.bpmn'
+      chrome_reload: CHROME_OPEN || 'chrome --load-and-launch-app="$(pwd)/dist" resources/simple.bpmn'
     },
 
     watch: {
