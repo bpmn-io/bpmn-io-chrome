@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <link rel="stylesheet" href="vendor/diagram-js/diagram.css" />
+
+  <style>
+    html, body, #canvas {
+      height: 100%
+    }
+  </style>
+</head>
+<body>
+  <button id="choose_file">Choose File</button>
+
+  <h1>Pizza Collaboration Viewer</h1>
+
+  <div id="canvas"></div>
+
+  <!-- viewer dependencies -->
+  <script src="vendor/bpmn-js/bpmn.js"></script>
+
+  <!-- app -->
+  <script src="dnd.js"></script>
+  <script src="app.js"></script>
+  <script src="file.js"></script>
+</body>
+</html>
