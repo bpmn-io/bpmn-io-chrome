@@ -99,9 +99,11 @@ function loadFileEntry(_chosenEntry) {
 
 function loadInitialFile(launchData) {
   if (launchData && launchData.items && launchData.items[0]) {
+    debugger
     loadFileEntry(launchData.items[0].entry);
   }
   else {
+    debugger
     // see if the app retained access to an earlier file or directory
     chrome.storage.local.get('chosenFile', function(items) {
       if (items.chosenFile) {
