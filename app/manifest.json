@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "bpmn.io",
   "version": "0.1",
-  "description": "Demo offline app for demo.bpmn.io",
+  "description": "A modeler for BPMN 2.0 based on bpmn.io",
   "author": "bpmn.io",
   "homepage_url": "http://bpmn.io",
   "offline_enabled": true,
