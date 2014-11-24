@@ -59,6 +59,15 @@ button[class*=" icon-"] {
 }
 
 #canvas {
+  height: 50%;
+}
+
+#xml {
+  height: 50%;
+}
+
+#xml textarea {
+  width: 100%;
   height: 100%;
 }
 

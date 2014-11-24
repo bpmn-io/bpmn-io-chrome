@@ -22,11 +22,8 @@ var bpmnXml = null;
 var newDiagramButton = document.querySelector('#new_diagram');
 var chooseFileButton = document.querySelector('#choose_file');
 var chooseDirButton = document.querySelector('#choose_dir');
-var saveFileButton = document.querySelector('#save_file');
-var undoButton = document.querySelector('#undo');
-var redoButton = document.querySelector('#redo');
+var saveFileButton = document.querySelector('#save_file');;
 var output = document.querySelector('output');
-var textarea = document.querySelector('textarea');
 
 function errorHandler(e) {
   console.error(e);
@@ -197,13 +194,6 @@ saveFileButton.addEventListener('click', function(e) {
   });
 });
 
-undoButton.addEventListener('click', function(e) {
-  undoCommand();
-});
-
-redoButton.addEventListener('click', function(e) {
-  redoCommand();
-});
 
 // Support dropping a single file onto this app.
 var dnd = new DnDFileController('body', function(data) {
