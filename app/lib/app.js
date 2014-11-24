@@ -2,7 +2,8 @@ var viewer;
 
 (function() {
 
-  var BpmnViewer = require('bpmn-js/lib/Modeler');
+  var BpmnViewer = require('bpmn-js/lib/Modeler'),
+      _ = require('lodash');
 
   function updateBpmn() {
     var vb = viewer.get('canvas').viewbox();
@@ -40,7 +41,7 @@ var viewer;
   viewer.on('commandStack.changed', updateXml);
   viewer.on('import.success', updateXml);
 
-  xmlTextArea.onblur = updateBpmn;
+  xmlTextArea.onkeyup = _.debounce(updateBpmn, 500);
 
 
   var undoButton = document.querySelector('#undo');
@@ -59,4 +60,25 @@ var viewer;
       redo();
     }
   };
+
+  var sourceButton = document.querySelector('[show-tab="xml"]');
+  sourceButton.addEventListener('click', function(e) {
+    document.body.classList.toggle('show-source');
+
+    if (!document.body.matches('.show-source, .show-diagram')) {
+      document.body.classList.add('show-diagram');
+    }
+    e.preventDefault();
+  });
+
+  var diagramButton = document.querySelector('[show-tab="diagram"]');
+  diagramButton.addEventListener('click', function(e) {
+    document.body.classList.toggle('show-diagram');
+
+    if (!document.body.matches('.show-source, .show-diagram')) {
+      document.body.classList.add('show-source');
+    }
+
+    e.preventDefault();
+  });
 })();

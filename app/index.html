@@ -11,7 +11,7 @@
 
 </head>
 
-<body>
+<body class="show-diagram">
   <div class="bio-header">
 
     <a href="http://bpmn.io" target="_blank" class="logo">
@@ -20,27 +20,29 @@
 
     <button title="new diagram" id="new_diagram" class="icon-doc-new"></button>
     <button title="open a file" id="choose_file" class="icon-open"></button>
-    <button title="save file" id="save_file" class="icon-download"></button>
+
     <button title="undo" id="undo" class="icon-ccw"></button>
     <button title="redo" id="redo" class="icon-cw"></button>
 
     <span class="current-file" id="file_path"></span>
+
+    <button title="save file" id="save_file" class="icon-download"></button>
   </div>
 
-  <div class="bio-content">
-    <div class="tabs">
-      <div class="tab-content">
-        <div data-tab="diagram">
-          <div id="canvas"></div>
-        </div>
-        <div data-tab="xml"></div>
-      </div>
-      <div class="tab-bar">
-        <ul>
-          <li show-tab="diagram"><a href onclick="showDiagram()">Diagram</a></li>
-          <li show-tab="xml"><a href onclick="showXML()">XML</a></li>
-        </ul>
-      </div>
+  <div class="bio-content tabs">
+    <div data-tab="diagram" class="tab">
+      <div id="canvas"></div>
+    </div>
+
+    <div data-tab="xml" class="tab" id="xml">
+      <textarea spellcheck="false"></textarea>
+    </div>
+
+    <div class="tabbar">
+      <ul>
+        <li><a href show-tab="diagram">Diagram</a></li>
+        <li><a href show-tab="xml">XML</a></li>
+      </ul>
     </div>
   </div>
 

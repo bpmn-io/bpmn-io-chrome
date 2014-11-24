@@ -65,6 +65,7 @@ module.exports = function (grunt) {
           },
           require: [
             'bpmn-js/lib/Modeler',
+            'lodash',
             'jquery'
           ]
         },
@@ -83,6 +84,7 @@ module.exports = function (grunt) {
           },
           require: [
             'bpmn-js/lib/Modeler',
+            'lodash',
             'jquery'
           ],
           watch: true

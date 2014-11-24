@@ -14,17 +14,17 @@ body, html {
   margin: 0;
 }
 
-.bio-header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+body {
+  display: flex;
+  flex-direction: column;
+}
 
+.bio-header {
   line-height: 40px;
   height: 50px;
-
   background: #EEE;
-  border-bottom: solid 1px #666;
+  border-bottom: solid 1px #999;
+  flex: initial;
 }
 
 .bio-header > * {
@@ -46,11 +46,8 @@ body, html {
 }
 
 .bio-content {
-  position: absolute;
-  top: 50px;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  overflow: hidden;
+  flex: 1;
 }
 
 button[class*=" icon-"] {
@@ -58,18 +55,104 @@ button[class*=" icon-"] {
   text-indent: -10000px;
 }
 
-#canvas {
-  height: 50%;
+
+.tabs {
+  display: flex;
+  flex-direction: column;
 }
 
-#xml {
-  height: 50%;
+.tabs .tabbar a,
+.tabs .tabbar li {
+  vertical-align: middle;
 }
 
-#xml textarea {
+.tabs .tab {
+  flex-grow: 0;
+  position: relative;
+}
+
+.tabs .tab > * {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
   width: 100%;
-  height: 100%;
 }
+
+.tab[data-tab="diagram"] {
+  order: 1;
+}
+
+.tab[data-tab="xml"] {
+  order: 3;
+}
+
+.tabbar {
+  order: 2;
+}
+
+.tabs .tabbar {
+  flex: initial;
+}
+
+.tabs textarea {
+  border: none;
+}
+
+.tabs .tabbar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #EEE;
+  border: 1px #999;
+  border-style: solid none;
+}
+
+.tabbar li,
+.tabbar a {
+  display: inline-block;
+}
+
+.tabbar a {
+  vertical-align: middle;
+  border: solid 1px #999;
+  margin: 4px;
+}
+
+.show-diagram .tab[data-tab="diagram"] {
+  flex-grow: 1;
+}
+
+.show-source .tab[data-tab="xml"] {
+  flex-grow: 0.5;
+}
+
+
+.tabbar a[show-tab="diagram"] {
+  margin-top: -1px !important;
+}
+
+.tabbar a[show-tab="xml"] {
+  margin-bottom: -1px !important;
+}
+
+.show-diagram .tabbar a[show-tab="diagram"] {
+  border-top-color: white;
+}
+
+.show-source .tabbar a[show-tab="xml"] {
+  border-bottom-color: white;
+}
+
+
+.tabs .tabbar a {
+  padding: 5px 10px;
+  background: white;
+  text-decoration: none;
+}
+
 
 /** fonts **/
 
