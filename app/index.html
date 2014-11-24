@@ -28,7 +28,20 @@
   </div>
 
   <div class="bio-content">
-    <div id="canvas"></div>
+    <div class="tabs">
+      <div class="tab-content">
+        <div data-tab="diagram">
+          <div id="canvas"></div>
+        </div>
+        <div data-tab="xml"></div>
+      </div>
+      <div class="tab-bar">
+        <ul>
+          <li show-tab="diagram"><a href onclick="showDiagram()">Diagram</a></li>
+          <li show-tab="xml"><a href onclick="showXML()">XML</a></li>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <!-- viewer dependencies -->
