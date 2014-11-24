@@ -23,6 +23,8 @@ var newDiagramButton = document.querySelector('#new_diagram');
 var chooseFileButton = document.querySelector('#choose_file');
 var chooseDirButton = document.querySelector('#choose_dir');
 var saveFileButton = document.querySelector('#save_file');
+var undoButton = document.querySelector('#undo');
+var redoButton = document.querySelector('#redo');
 var output = document.querySelector('output');
 var textarea = document.querySelector('textarea');
 
@@ -193,6 +195,14 @@ saveFileButton.addEventListener('click', function(e) {
     saveXml(writableEntry);
     displayEntryData(writableEntry);
   });
+});
+
+undoButton.addEventListener('click', function(e) {
+  undoCommand();
+});
+
+redoButton.addEventListener('click', function(e) {
+  redoCommand();
 });
 
 // Support dropping a single file onto this app.

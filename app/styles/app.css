@@ -107,6 +107,8 @@ button[class*=" icon-"] {
 .icon-redo:before { content: '\e80b'; }
 .icon-plus-circled:before { content: '\e80c'; }
 .icon-doc-new:before { content: '\e80d'; }
+.icon-ccw:before { content: '\e80e'; }
+.icon-cw:before { content: '\e80f'; }
 
 /** animate spinner **/
 
