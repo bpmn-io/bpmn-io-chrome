@@ -19,6 +19,7 @@ Updated: Joe Marini (joemarini@google.com)
 
 var chosenEntry = null;
 var bpmnXml = null;
+var newDiagramButton = document.querySelector('#new_diagram');
 var chooseFileButton = document.querySelector('#choose_file');
 var chooseDirButton = document.querySelector('#choose_dir');
 var saveFileButton = document.querySelector('#save_file');
@@ -163,6 +164,12 @@ function saveXml(writableEntry) {
     });
   });
 }
+
+newDiagramButton.addEventListener('click', function(e) {
+  viewer.createDiagram(function(err, warn) {
+    console.log("Created new diagram");
+  });
+});
 
 chooseFileButton.addEventListener('click', function(e) {
   var accepts = [{

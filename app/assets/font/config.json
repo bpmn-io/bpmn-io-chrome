@@ -89,6 +89,12 @@
       "css": "comment",
       "code": 59401,
       "src": "iconic"
+    },
+    {
+      "uid": "9e0404ba55575a540164db9a5ad511df",
+      "css": "doc-new",
+      "code": 59405,
+      "src": "elusive"
     }
   ]
 }

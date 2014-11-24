@@ -106,6 +106,7 @@ button[class*=" icon-"] {
 .icon-undo:before { content: '\e80a'; }
 .icon-redo:before { content: '\e80b'; }
 .icon-plus-circled:before { content: '\e80c'; }
+.icon-doc-new:before { content: '\e80d'; }
 
 /** animate spinner **/
 
