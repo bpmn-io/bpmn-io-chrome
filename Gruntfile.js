@@ -3,7 +3,7 @@
 // configures browsers to run test against
 // any of [ 'PhantomJS', 'Chrome', 'Firefox', 'IE']
 var CHROME_BIN = (process.env.CHROME_BIN || 'chrome').replace(/^\s+|\s+$/, '');
-var CHROME_OPEN = (process.env.CHROME_OPEN || CHROME_BIN + ' --load-and-launch-app="$(pwd)/dist" resources/simple.bpmn').replace(/^\s+|\s+$/, '');
+var CHROME_OPEN = (process.env.CHROME_OPEN || CHROME_BIN + ' --load-and-launch-app="' + __dirname + '/dist" resources/simple.bpmn').replace(/^\s+|\s+$/, '');
 
 module.exports = function (grunt) {
 
