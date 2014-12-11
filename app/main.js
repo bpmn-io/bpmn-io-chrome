@@ -6,7 +6,7 @@ chrome.app.runtime.onLaunched.addListener(function(launchData) {
   var height = 768 ;
 
   chrome.app.window.create('index.html', {
-    id: "bpmn-js-chrome",
+    id: 'bpmn-js-chrome',
     outerBounds: {
       width: width,
       height: height,

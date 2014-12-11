@@ -43,8 +43,8 @@ module.exports = function (grunt) {
 
       diagram_js: {
         files: [{
-          src: require.resolve('diagram-js/assets/diagram.css'),
-          dest: '<%= config.dist %>/vendor/diagram-js/diagram.css'
+          src: require.resolve('diagram-js/assets/diagram-js.css'),
+          dest: '<%= config.dist %>/vendor/diagram-js/diagram-js.css'
         }]
       }
     },
@@ -65,6 +65,7 @@ module.exports = function (grunt) {
           },
           require: [
             'bpmn-js/lib/Modeler',
+            'diagram-js-origin',
             'lodash',
             'jquery'
           ]
@@ -84,6 +85,7 @@ module.exports = function (grunt) {
           },
           require: [
             'bpmn-js/lib/Modeler',
+            'diagram-js-origin',
             'lodash',
             'jquery'
           ],
@@ -93,7 +95,7 @@ module.exports = function (grunt) {
           '<%= config.dist %>/vendor/bpmn-js/bpmn.js': [ '<%= config.src %>/vendor/bpmn-js/bpmn.js' ]
         }
       }
-    },
+    }
   });
 
   grunt.registerTask('test', [ ]);

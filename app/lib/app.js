@@ -2,7 +2,8 @@ var viewer;
 
 (function() {
 
-  var BpmnViewer = require('bpmn-js/lib/Modeler'),
+  var BpmnModeler = require('bpmn-js/lib/Modeler'),
+      DiagramJsOrigin = require('diagram-js-origin'),
       _ = require('lodash');
 
   function updateBpmn() {
@@ -35,7 +36,13 @@ var viewer;
     }
   }
 
-  viewer = new BpmnViewer({ container: '#canvas', height: '100%', width: '100%' });
+  viewer = new BpmnModeler({
+    container: '#canvas',
+    additionalModules: [
+      DiagramJsOrigin
+    ]
+  });
+
   var xmlTextArea = document.querySelector('#xml textarea');
 
   viewer.on('commandStack.changed', updateXml);

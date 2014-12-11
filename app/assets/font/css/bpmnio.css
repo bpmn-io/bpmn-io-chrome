@@ -1,0 +1,78 @@
+@font-face {
+  font-family: 'bpmnio';
+  src: url('../font/bpmnio.eot?96856528');
+  src: url('../font/bpmnio.eot?96856528#iefix') format('embedded-opentype'),
+       url('../font/bpmnio.woff?96856528') format('woff'),
+       url('../font/bpmnio.ttf?96856528') format('truetype'),
+       url('../font/bpmnio.svg?96856528#bpmnio') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'bpmnio';
+    src: url('../font/bpmnio.svg?96856528#bpmnio') format('svg');
+  }
+}
+*/
+ 
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "bpmnio";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+     
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.icon-plus:before { content: '\e800'; } /* '' */
+.icon-loading:before { content: '\e801'; } /* '' */
+.icon-minus:before { content: '\e802'; } /* '' */
+.icon-open:before { content: '\e803'; } /* '' */
+.icon-picture:before { content: '\e804'; } /* '' */
+.icon-download:before { content: '\e805'; } /* '' */
+.icon-size-reset:before { content: '\e806'; } /* '' */
+.icon-bpmn-io:before { content: '\e807'; } /* '' */
+.icon-info:before { content: '\e808'; } /* '' */
+.icon-comment:before { content: '\e809'; } /* '' */
+.icon-undo:before { content: '\e80a'; } /* '' */
+.icon-redo:before { content: '\e80b'; } /* '' */
+.icon-plus-circled:before { content: '\e80c'; } /* '' */
+.icon-doc-new:before { content: '\e80d'; } /* '' */
+.icon-ccw:before { content: '\e80e'; } /* '' */
+.icon-cw:before { content: '\e80f'; } /* '' */
+.icon-connection:before { content: '\e810'; } /* '' */
+.icon-end-event:before { content: '\e811'; } /* '' */
+.icon-gateway:before { content: '\e812'; } /* '' */
+.icon-intermediate-event:before { content: '\e813'; } /* '' */
+.icon-start-event:before { content: '\e814'; } /* '' */
+.icon-subprocess-collapsed:before { content: '\e815'; } /* '' */
+.icon-subprocess-expanded:before { content: '\e816'; } /* '' */
+.icon-task:before { content: '\e817'; } /* '' */
+.icon-text-annotation:before { content: '\e818'; } /* '' */
+.icon-trash:before { content: '\e819'; } /* '' */
