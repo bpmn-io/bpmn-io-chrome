@@ -1,11 +1,15 @@
+/**
+ * The main file that creates the bpmn-io-chrome app main window
+ */
 chrome.app.runtime.onLaunched.addListener(function(launchData) {
+
   // Center window on screen.
   var screenWidth = screen.availWidth;
   var screenHeight = screen.availHeight;
   var width = 1024;
   var height = 768 ;
 
-  chrome.app.window.create('index.html', {
+  chrome.app.window.create('lib/index.html', {
     id: 'bpmn-js-chrome',
     outerBounds: {
       width: width,
@@ -17,4 +21,9 @@ chrome.app.runtime.onLaunched.addListener(function(launchData) {
     win.contentWindow.launchData = launchData;
   });
 
+  chrome.runtime.onMessage.addListener('dialog.confirm', function(message, sender, sendResponse) {
+    console.log(message);
+
+    sendResponse('cancel');
+  });
 });

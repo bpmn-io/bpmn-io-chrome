@@ -1,9 +1,20 @@
 'use strict';
 
+var path = require('path');
+
+var tmpDir = path.join(__dirname, 'tmp', 'chrome-user-dir');
+
+var CHROME_START_OPTS =
+  '--user-data-dir="' + tmpDir + '" ' +
+  '--no-default-browser-check ' +
+  '--no-first-run';
+
+
 // configures browsers to run test against
 // any of [ 'PhantomJS', 'Chrome', 'Firefox', 'IE']
 var CHROME_BIN = (process.env.CHROME_BIN || 'chrome').replace(/^\s+|\s+$/, '');
-var CHROME_OPEN = (process.env.CHROME_OPEN || CHROME_BIN + ' --load-and-launch-app="' + __dirname + '/dist" resources/simple.bpmn').replace(/^\s+|\s+$/, '');
+var CHROME_OPEN = (process.env.CHROME_OPEN || CHROME_BIN + ' ' + CHROME_START_OPTS +' --load-and-launch-app="' + __dirname + '/dist" resources/simple.bpmn').replace(/^\s+|\s+$/, '');
+
 
 module.exports = function (grunt) {
 
@@ -15,29 +26,49 @@ module.exports = function (grunt) {
     config: {
       dist: 'dist',
       src: 'app',
+      less: 'app/less',
       chrome_reload: CHROME_OPEN
     },
 
     watch: {
+      less: {
+        files: [ '<%= config.less %>/**/*.less' ],
+        tasks: [ 'less' ]
+      },
+
       dist: {
         files: [ '<%= config.dist %>/**/*' ],
         tasks: [ 'open' ]
       },
 
-      app: {
-        files: [ '<%= config.src %>/**/*', '!<%= config.src %>/vendor/**/*' ],
-        tasks: [ 'copy:app' ]
+      statics: {
+        files: [
+          '<%= config.src %>/**/*'
+        ],
+        tasks: [ 'copy:statics' ]
       }
     },
 
     copy: {
-
-      app: {
+      statics: {
         files: [{
           expand: true,
           cwd: '<%= config.src %>',
-          dest: '<%= config.dist %>/',
-          src: [ '**/*', '!vendor/**/*' ]
+          dest: '<%= config.dist %>',
+          src: [
+            'icons/*',
+            'lib/index.html',
+            '*'
+          ]
+        }]
+      },
+
+      font: {
+        files: [{
+          expand: true,
+          cwd: '<%= config.src %>/font/font',
+          dest: '<%= config.dist %>/font',
+          src: [ '*' ]
         }]
       },
 
@@ -46,6 +77,22 @@ module.exports = function (grunt) {
           src: require.resolve('diagram-js/assets/diagram-js.css'),
           dest: '<%= config.dist %>/vendor/diagram-js/diagram-js.css'
         }]
+      }
+    },
+
+
+    less: {
+      app: {
+        options: {
+          cleancss: true,
+          paths: [ '<%= config.less %>' ]
+        },
+
+        files: {
+          '<%= config.dist %>/css/app.css': [
+            '<%= config.less %>/app.less'
+          ]
+        }
       }
     },
 
@@ -65,17 +112,11 @@ module.exports = function (grunt) {
                 return 'undefined';
             }
           }
-        },
-        require: [
-          'bpmn-js/lib/Modeler',
-          'diagram-js-origin',
-          'lodash',
-          'jquery'
-        ]
+        }
       },
       modeler: {
         files: {
-          '<%= config.dist %>/vendor/bpmn-js/bpmn.js': [ '<%= config.src %>/vendor/bpmn-js/bpmn.js' ]
+          '<%= config.dist %>/lib/index.js': [ '<%= config.src %>/lib/index.js' ]
         }
       },
       watchModeler: {
@@ -83,7 +124,7 @@ module.exports = function (grunt) {
           watch: true
         },
         files: {
-          '<%= config.dist %>/vendor/bpmn-js/bpmn.js': [ '<%= config.src %>/vendor/bpmn-js/bpmn.js' ]
+          '<%= config.dist %>/lib/index.js': [ '<%= config.src %>/lib/index.js' ]
         }
       }
     }
@@ -93,9 +134,9 @@ module.exports = function (grunt) {
 
   grunt.registerTask('open', 'exec:chrome_reload');
 
-  grunt.registerTask('build', [ 'copy', 'browserify:modeler' ]);
+  grunt.registerTask('build', [ 'copy', 'less', 'browserify:modeler' ]);
 
-  grunt.registerTask('auto-build', [ 'build', 'browserify:watchModeler', 'open', 'watch']);
+  grunt.registerTask('auto-build', [ 'copy', 'less', 'browserify:watchModeler', 'open', 'watch']);
 
   grunt.registerTask('default', [ 'test', 'build' ]);
 };

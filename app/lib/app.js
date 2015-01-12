@@ -15,8 +15,8 @@ var viewer;
   }
 
   function updateXml() {
-    viewer.saveXML({'format': true}, function updateXml(err, result) {
-      if(!err) {
+    viewer.saveXML({ format: true }, function(err, result) {
+      if (!err) {
         xmlTextArea.value = result;
       } else {
         // TODO: handle error

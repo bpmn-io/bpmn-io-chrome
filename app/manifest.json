@@ -6,21 +6,23 @@
   "author": "bpmn.io",
   "homepage_url": "http://bpmn.io",
   "offline_enabled": true,
-  "minimum_chrome_version": "23",
+  "minimum_chrome_version": "30",
   "icons": {
-    "16": "assets/icons/icon_16.png",
-    "48": "assets/icons/icon_48.png",
-    "128": "assets/icons/icon_128.png"
+    "16": "icons/icon_16.png",
+    "48": "icons/icon_48.png",
+    "128": "icons/icon_128.png"
   },
   "app": {
     "background": {
-      "scripts": ["main.js"]
+      "scripts": [ "main.js"]
     }
   },
   "permissions": [
     {
       "fileSystem": [
-        "write", "retainEntries", "directory"]},
+        "write", "retainEntries", "directory"
+      ]
+    },
     "storage"
   ],
   "file_handlers" : {
