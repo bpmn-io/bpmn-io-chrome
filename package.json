@@ -17,10 +17,11 @@
     "load-grunt-tasks": "~0.4.0"
   },
   "dependencies": {
-    "bpmn-js": "^0.6.0",
-    "diagram-js": "^0.6.0",
-    "diagram-js-origin": "^0.1.2",
+    "bpmn-js": "^0.9.0",
+    "diagram-js": "^0.9.0",
+    "diagram-js-origin": "^0.4.0",
     "jquery": "^2.1.1",
-    "lodash": "^2.4.1"
+    "lodash": "^3.0.0",
+    "min-dom": "^0.2.0"
   }
 }
