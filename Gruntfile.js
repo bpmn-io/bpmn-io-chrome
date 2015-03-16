@@ -54,41 +54,32 @@ module.exports = function (grunt) {
     },
 
     browserify: {
-      modeler: {
-        options: {
-          browserifyOptions: {
-            builtins: false
-          },
-          bundleOptions: {
-            detectGlobals: false,
-            insertGlobalVars: []
-          },
-          require: [
-            'bpmn-js/lib/Modeler',
-            'diagram-js-origin',
-            'lodash',
-            'jquery'
-          ]
+      options: {
+        browserifyOptions: {
+          builtins: false,
+          insertGlobalVars: {
+            process: function () {
+                return 'undefined';
+            },
+            Buffer: function () {
+                return 'undefined';
+            }
+          }
         },
+        require: [
+          'bpmn-js/lib/Modeler',
+          'diagram-js-origin',
+          'lodash',
+          'jquery'
+        ]
+      },
+      modeler: {
         files: {
           '<%= config.dist %>/vendor/bpmn-js/bpmn.js': [ '<%= config.src %>/vendor/bpmn-js/bpmn.js' ]
         }
       },
       watchModeler: {
         options: {
-          browserifyOptions: {
-            builtins: false
-          },
-          bundleOptions: {
-            detectGlobals: false,
-            insertGlobalVars: []
-          },
-          require: [
-            'bpmn-js/lib/Modeler',
-            'diagram-js-origin',
-            'lodash',
-            'jquery'
-          ],
           watch: true
         },
         files: {
