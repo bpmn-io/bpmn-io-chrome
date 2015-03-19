@@ -17,8 +17,6 @@ function DiagramControl(diagramFile) {
   var commandStackIdx = -1,
       attachedScope;
 
-  diagramFile.unsaved = !diagramFile.entry;
-
   function apply() {
     if (attachedScope) {
       attachedScope.$applyAsync();
@@ -31,7 +29,7 @@ function DiagramControl(diagramFile) {
     self.canUndo = commandStack.canUndo();
     self.canRedo = commandStack.canRedo();
 
-    diagramFile.unsaved = (commandStackIdx !== commandStack._stackIdx) || !diagramFile.entry;
+    diagramFile.unsaved = (commandStackIdx !== commandStack._stackIdx);
   });
 
   modeler.on('commandStack.changed', apply);
@@ -41,8 +39,6 @@ function DiagramControl(diagramFile) {
     var commandStack = modeler.get('commandStack');
 
     commandStackIdx = commandStack._stackIdx;
-
-    diagramFile.unsaved = !diagramFile.entry;
   };
 
   this.save = function(done) {
