@@ -5,7 +5,9 @@
 @import "_icons";
 
 @import "_layout";
-@import "_components";
+
+@import "_close";
+@import "_dialog";
 
 
 body, html {
@@ -254,4 +256,10 @@ button[class*=" icon-"] {
 .menu-bar button.disabled {
   color: #999;
   cursor: default;
+}
+
+
+button.btn {
+  font-size: @control-font-size;
+  padding: 5px 7px;
 }

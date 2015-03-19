@@ -1,11 +1,10 @@
 var files = require('../util/files'),
-    dialog = require('../util/dialog'),
     workspace = require('../util/workspace'),
     assign = require('lodash/object/assign'),
     DiagramControl = require('./diagram/control');
 
 
-function Editor($scope) {
+function Editor($scope, dialog) {
 
   var idx = 0;
 
@@ -159,11 +158,11 @@ function Editor($scope) {
 
     var self = this;
 
-    if (diagram.control.unsaved) {
+    if (diagram.unsaved) {
       dialog.confirm('Save changes to ' + diagram.name + ' before closing?', {
         cancel: { label: 'Cancel' },
-        close: { label: 'Don\'t Save', defaultAction: true },
-        save: { label: 'Save' }
+        close: { label: 'Don\'t Save'},
+        save: { label: 'Save', defaultAction: true }
       }, function(result) {
         if (result === 'save') {
           self.saveDiagram(diagram, function(err) {
@@ -218,5 +217,7 @@ function Editor($scope) {
 
   this.init();
 }
+
+Editor.$inject = [ '$scope', 'dialog' ];
 
 module.exports = Editor;

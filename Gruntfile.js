@@ -112,7 +112,8 @@ module.exports = function (grunt) {
                 return 'undefined';
             }
           }
-        }
+        },
+        transform: [ 'stringify' ]
       },
       modeler: {
         files: {
