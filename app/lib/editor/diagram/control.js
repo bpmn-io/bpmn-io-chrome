@@ -1,9 +1,17 @@
 var domify = require('min-dom/lib/domify');
 
-var BpmnJS = require('bpmn-js/lib/Modeler');
+var BpmnJS = require('bpmn-js/lib/Modeler'),
+    DiagramJsOrigin = require('diagram-js-origin');
+
 
 function createBpmnJS(element) {
-  return new BpmnJS({ container: element, position: 'absolute' });
+  return new BpmnJS({
+    container: element,
+    position: 'absolute',
+    additionalModules: [
+      DiagramJsOrigin
+    ]
+  });
 }
 
 
