@@ -47,6 +47,8 @@ function DiagramControl(diagramFile) {
     var commandStack = modeler.get('commandStack');
 
     commandStackIdx = commandStack._stackIdx;
+
+    diagramFile.unsaved = false;
   };
 
   this.save = function(done) {
