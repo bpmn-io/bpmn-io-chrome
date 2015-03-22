@@ -6,7 +6,7 @@
 
   <button class="btn"
           ng-repeat="button in buttons"
-          ng-click="closeThisDialog(button.key)"
+          ng-click="dialog.close(button.key)"
           ng-class="{ primary: button.defaultAction }" autofocus>
     {{ button.label }}
   </button>

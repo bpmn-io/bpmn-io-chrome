@@ -85,7 +85,7 @@ module.exports = function (grunt) {
       app: {
         options: {
           cleancss: true,
-          paths: [ '<%= config.less %>' ]
+          paths: [ '<%= config.less %>', 'node_modules' ]
         },
 
         files: {
@@ -103,7 +103,7 @@ module.exports = function (grunt) {
     browserify: {
       options: {
         browserifyOptions: {
-          builtins: false,
+          builtins: [ 'events' ],
           insertGlobalVars: {
             process: function () {
                 return 'undefined';
