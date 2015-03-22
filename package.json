@@ -29,6 +29,7 @@
     "jquery": "^2.1.1",
     "lodash": "^3.0.0",
     "min-dom": "^0.2.0",
+    "ng-simple-dialog": "0.0.0",
     "simple-dialog": "^0.1.0"
   }
 }
