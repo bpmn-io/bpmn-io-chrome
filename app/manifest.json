@@ -27,6 +27,11 @@
     "text" : {
         "types" : [ "*/*" ],
         "title" : "File Opener"
+    },
+    "any": {
+      "extensions": [
+        "bpmn"
+      ]
     }
   }
 }
