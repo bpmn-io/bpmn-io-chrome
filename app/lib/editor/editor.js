@@ -1,6 +1,7 @@
 var files = require('../util/files'),
     workspace = require('../util/workspace'),
     assign = require('lodash/object/assign'),
+    forEach = require('lodash/collection/forEach'),
     DiagramControl = require('./diagram/control');
 
 
@@ -10,6 +11,10 @@ function Editor($scope, dialog) {
 
   this.active = null;
   this.diagrams = [];
+  this.views = {
+    diagram: true,
+    xml: false
+  };
 
   this.canUndo = function() {
     return this.active && this.active.control.canUndo;
@@ -185,6 +190,21 @@ function Editor($scope, dialog) {
     });
   };
 
+  this.toggleView = function(name) {
+    var views = Object.keys(this.views);
+    var idx = views.indexOf(name);
+
+    this.views[name] = !this.views[name];
+
+    if(!this.views.diagram && !this.views.xml) {
+      views.splice(idx, 1);
+      this.views[views[0]] = true;
+    }
+  };
+
+  this.isActiveView = function(name) {
+    return this.views[name];
+  };
 
   this.init = function() {
 

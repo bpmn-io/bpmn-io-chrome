@@ -148,7 +148,7 @@ button[class*=" icon-"] {
 
 .tabs .tabbar ul {
   list-style: none;
-  margin: 0;
+  margin: 0 0 0 -4px;
   padding: 0;
   background: @background-color-default;
 }
@@ -176,7 +176,7 @@ button[class*=" icon-"] {
   flex-grow: 1;
 }
 
-.show-source .tab[data-tab="xml"] {
+.show-xml .tab[data-tab="xml"] {
   flex-grow: 0.5;
 }
 
@@ -193,7 +193,7 @@ button[class*=" icon-"] {
   border-top-color: @background-color-diagram;
 }
 
-.show-source .tabbar a[show-tab="xml"] {
+.show-xml .tabbar a[show-tab="xml"] {
   border-bottom-color: @background-color-diagram;
 }
 
@@ -205,7 +205,14 @@ button[class*=" icon-"] {
 
 .tabs .tabbar-default a {
   padding: 6px 10px;
-  margin-bottom: -1px;
+  margin-bottom: -2px;
+  background-color: #EAEAEA;
+  transition: background-color 0.15s ease;
+  border-radius: 3px 3px 0 0;
+
+  &:hover {
+    background-color: #fff;
+  }
 }
 
 .menu-bar > * {

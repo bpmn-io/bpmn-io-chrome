@@ -31,11 +31,6 @@ module.exports = function (grunt) {
     },
 
     watch: {
-      less: {
-        files: [ '<%= config.less %>/**/*.less' ],
-        tasks: [ 'less' ]
-      },
-
       dist: {
         files: [ '<%= config.dist %>/**/*' ],
         tasks: [ 'open' ]
@@ -45,7 +40,7 @@ module.exports = function (grunt) {
         files: [
           '<%= config.src %>/**/*'
         ],
-        tasks: [ 'copy:statics' ]
+        tasks: [ 'less', 'copy:statics' ]
       }
     },
 

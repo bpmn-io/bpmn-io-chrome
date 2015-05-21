@@ -25,10 +25,16 @@ function DiagramControl(diagramFile) {
   var commandStackIdx = -1,
       attachedScope;
 
+  this.xml = undefined;
+
   function apply() {
     if (attachedScope) {
       attachedScope.$applyAsync();
     }
+  }
+
+  function imported(err, warnings) {
+    console.log(arguments);
   }
 
   modeler.on('commandStack.changed', function(e) {
@@ -51,22 +57,32 @@ function DiagramControl(diagramFile) {
     diagramFile.unsaved = false;
   };
 
-  this.save = function(done) {
+  this.redrawDiagram = function(init) {
+    if (init || self.xml !== diagramFile.contents) {
+      modeler.importXML(self.xml, imported);
+    }
+  };
 
+  this.save = function(done) {
     modeler.saveXML({ format: true }, function(err, xml) {
-      done(err, xml);
+      if (typeof done === 'function') {
+        done(err, xml);
+      }
+      self.xml = diagramFile.contents = xml;
+
+      apply();
     });
   };
+
+  modeler.on('import.success', this.save);
+
+  modeler.on('commandStack.changed', this.save);
 
   this.attach = function(scope, element) {
 
     attachedScope = scope;
 
     element.appendChild($el);
-
-    function imported(err, warnings) {
-      console.log(arguments);
-    }
 
     if (!modeler.diagram) {
       if (diagramFile.contents) {
@@ -81,6 +97,7 @@ function DiagramControl(diagramFile) {
     var parent = $el.parentNode;
 
     if (parent) {
+      attachedScope = null;
       parent.removeChild($el);
     }
   };

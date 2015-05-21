@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../vendor/diagram-js/diagram-js.css" />
     <link rel="stylesheet" href="../css/app.css" />
   </head>
-  <body class="show-diagram" ng-controller="EditorController as editor">
+  <body ng-controller="EditorController as editor">
 
     <div class="bio-header">
       <a href="http://bpmn.io" target="_blank" class="logo">
@@ -68,22 +68,22 @@
           </ul>
         </div>
 
-        <div class="content">
+        <div ng-class="{'show-diagram': editor.isActiveView('diagram'), 'show-xml': editor.isActiveView('xml')}" class="content">
 
           <div class="bio-diagram tabs" ng-if="editor.isActive(diagram)" ng-repeat="diagram in editor.diagrams">
 
             <div data-tab="diagram" class="tab">
-              <div diagram control="editor.active.control"></div>
+              <div diagram control="diagram.control"></div>
             </div>
 
-            <div data-tab="xml" class="tab" id="xml">
-              <textarea spellcheck="false"></textarea>
+            <div data-tab="xml" class="tab">
+              <textarea ng-change="diagram.control.redrawDiagram()" ng-model-options="{updateOn: 'default', debounce: {'default': 1000 }}" ng-model="diagram.control.xml" spellcheck="false"></textarea>
             </div>
 
             <div class="tabbar">
               <ul>
-                <li><a href show-tab="diagram">Diagram</a></li>
-                <li><a href show-tab="xml">XML</a></li>
+                <li><a ng-click="editor.toggleView('diagram')">Diagram</a></li>
+                <li><a ng-click="editor.toggleView('xml')">XML</a></li>
               </ul>
             </div>
           </div>
