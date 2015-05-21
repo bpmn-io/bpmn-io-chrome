@@ -120,15 +120,11 @@ button[class*=" icon-"] {
   order: 1;
 }
 
-.bio-diagram .tabbar {
+.bio-diagram .tabbar-bottom {
   order: 2;
 }
 
-.bio-diagram .tabbar a {
-  margin: 4px;
-}
-
-.bio-diagram .tabbar ul {
+.bio-diagram .tabbar-bottom ul {
   border: 1px @border-color;
   border-style: solid none;
 }
@@ -213,6 +209,47 @@ button[class*=" icon-"] {
   &:hover {
     background-color: #fff;
   }
+}
+
+.bio-diagram .tabbar-bottom a {
+  padding: 7px 10px;
+  width: 10em;
+  text-align: center;
+  margin-left: 24px;
+  margin-bottom: -2px;
+  background-color: #EAEAEA;
+  transition: background-color 0.15s ease;
+  border-radius: 3px 3px 0 0;
+
+  &:hover {
+    background-color: #fff;
+  }
+
+  &:first-child {
+    padding: 6px 10px;
+  }
+}
+
+.bio-diagram .tabbar-bottom ul {
+  margin: 0;
+}
+
+.bio-diagram .tabbar-bottom li.active-diagram a {
+  background: white;
+  margin-top: -7px;
+  border-top: none;
+  border-radius: 0 0 3px 3px;
+
+  padding: 6px 10px;
+}
+
+.bio-diagram .tabbar-bottom li.active-xml a {
+  background: white;
+  margin-bottom: -1px;
+  border-bottom: none;
+  border-radius: 3px 3px 0 0;
+
+  padding: 7px 10px;
 }
 
 .menu-bar > * {

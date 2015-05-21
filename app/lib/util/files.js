@@ -154,31 +154,48 @@ function saveFile(diagramFile, done) {
     writeFile(diagramFile.entry, blob, done);
   } else {
     // choose new file to save
-    chooseEntry({ type: 'saveFile', suggestedName: diagramFile.name }, function(err, entry) {
+    writeFileAs(diagramFile, done);
+  }
+}
+
+function saveFileAs(diagramFile, done) {
+  var blob = new Blob([ diagramFile.contents ], { type: 'text/plain' });
+
+  writeFileAs(diagramFile, blob, done);
+}
+
+function writeFileAs(diagramFile, blob, done) {
+  if (typeof blob === 'function') {
+    done = blob;
+    blob = undefined;
+  }
+
+  chooseEntry({ type: 'saveFile', suggestedName: diagramFile.name }, function(err, entry) {
+    if (err) {
+      return done(err);
+    }
+
+    if (!entry) {
+      return done(new Error('no entry choosen'));
+    }
+
+    console.log('entry', entry);
+
+    writeFile(entry, blob, function(err) {
+
       if (err) {
         return done(err);
       }
 
-      if (!entry) {
-        return done(new Error('no entry choosen'));
-      }
+      chrome.fileSystem.getDisplayPath(entry, function(path) {
+        diagramFile.entry = entry;
+        diagramFile.name = entry.name;
+        diagramFile.path = path;
 
-      writeFile(entry, blob, function(err) {
-
-        if (err) {
-          return done(err);
-        }
-
-        chrome.fileSystem.getDisplayPath(entry, function(path) {
-          diagramFile.entry = entry;
-          diagramFile.name = entry.name;
-          diagramFile.path = path;
-
-          return done();
-        });
+        return done();
       });
     });
-  }
+  });
 }
 
 
@@ -186,7 +203,9 @@ function saveFile(diagramFile, done) {
 module.exports.loadFile = loadFile;
 
 module.exports.openFile = openFile;
+
 module.exports.saveFile = saveFile;
+module.exports.saveFileAs = saveFileAs;
 
 
 // use local storage to retain access to this file

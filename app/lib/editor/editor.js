@@ -40,7 +40,23 @@ function Editor($scope, dialog) {
     }
   };
 
-  this.saveDiagram = function(diagram, done) {
+  this.saveDiagram = function(diagram, opts, done) {
+    if (typeof opts === 'function') {
+      done = opts;
+      opts = {};
+    }
+
+    function handleSaving(err) {
+      console.log(err);
+
+      if (!err) {
+        diagram.control.resetEditState();
+      }
+
+      $scope.$applyAsync();
+
+      return done(err);
+    }
 
     diagram.control.save(function(err, xml) {
       if (err) {
@@ -48,28 +64,23 @@ function Editor($scope, dialog) {
       } else {
         diagram.contents = xml;
 
-        files.saveFile(diagram, function(err) {
-
-          console.log(err);
-
-          if (!err) {
-            diagram.control.resetEditState();
-          }
-
-          $scope.$applyAsync();
-
-          return done(err);
-        });
+        if (opts.chooseDir) {
+          files.saveFileAs(diagram, handleSaving);
+        } else {
+          files.saveFile(diagram, handleSaving);
+        }
       }
     });
   };
 
-  this.save = function() {
-
-    var active = this.active;
+  this.save = function(chooseDir) {
+    var active = this.active,
+        opts = {
+          chooseDir: chooseDir
+        };
 
     if (active) {
-      this.saveDiagram(active, function(err) {
+      this.saveDiagram(active, opts, function(err) {
         console.log(err);
       });
     }

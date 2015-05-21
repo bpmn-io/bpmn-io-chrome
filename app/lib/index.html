@@ -27,10 +27,16 @@
                 ng-click="editor.openDiagram()">
         </button>
 
-        <button class="icon-save"
+        <button class="icon-save-normal"
                 title="save BPMN diagram"
                 ng-class="{ disabled: !editor.isUnsaved() }"
                 ng-click="editor.save()">
+        </button>
+
+        <button class="icon-save-as"
+                title="save BPMN diagram as.."
+                ng-class="{ disabled: !editor.isUnsaved() }"
+                ng-click="editor.save(true)">
         </button>
 
         <span class="placeholder"></span>
@@ -80,10 +86,10 @@
               <textarea ng-change="diagram.control.redrawDiagram()" ng-model-options="{updateOn: 'default', debounce: {'default': 1000 }}" ng-model="diagram.control.xml" spellcheck="false"></textarea>
             </div>
 
-            <div class="tabbar">
+            <div class="tabbar tabbar-bottom">
               <ul>
-                <li><a ng-click="editor.toggleView('diagram')">Diagram</a></li>
-                <li><a ng-click="editor.toggleView('xml')">XML</a></li>
+                <li ng-class="{ 'active-diagram': editor.isActiveView('diagram') }"><a ng-click="editor.toggleView('diagram')">Diagram</a></li>
+                <li ng-class="{ 'active-xml': editor.isActiveView('xml') }"><a ng-click="editor.toggleView('xml')">XML</a></li>
               </ul>
             </div>
           </div>
