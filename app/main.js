@@ -20,10 +20,4 @@ chrome.app.runtime.onLaunched.addListener(function(launchData) {
   }, function(win) {
     win.contentWindow.launchData = launchData;
   });
-
-  chrome.runtime.onMessage.addListener('dialog.confirm', function(message, sender, sendResponse) {
-    console.log(message);
-
-    sendResponse('cancel');
-  });
 });
