@@ -2,18 +2,17 @@
 
 var path = require('path');
 
-var tmpDir = path.join(__dirname, 'tmp', 'chrome-user-dir');
+var CHROME_START_OPTS = [
+  '--user-data-dir=tmp/chrome-user-dir',
+  '--no-default-browser-check',
+  '--no-first-run',
+  '--enable-apps-file-associations',
+  '--load-and-launch-app=dist',
+  'resources/simple.bpmn'
+];
 
-var CHROME_START_OPTS =
-  '--user-data-dir="' + tmpDir + '" ' +
-  '--no-default-browser-check ' +
-  '--no-first-run';
 
-
-// configures browsers to run test against
-// any of [ 'PhantomJS', 'Chrome', 'Firefox', 'IE']
 var CHROME_BIN = (process.env.CHROME_BIN || 'chrome').replace(/^\s+|\s+$/, '');
-var CHROME_OPEN = (process.env.CHROME_OPEN || CHROME_BIN + ' ' + CHROME_START_OPTS +' --load-and-launch-app="' + __dirname + '/dist" resources/simple.bpmn').replace(/^\s+|\s+$/, '');
 
 
 module.exports = function (grunt) {
@@ -23,24 +22,27 @@ module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
-    config: {
-      dist: 'dist',
-      src: 'app',
-      less: 'app/less',
-      chrome_reload: CHROME_OPEN
-    },
-
     watch: {
       dist: {
-        files: [ '<%= config.dist %>/**/*' ],
+        files: [ 'dist/**/*' ],
         tasks: [ 'open' ]
       },
 
       statics: {
         files: [
-          '<%= config.src %>/**/*'
+          'app/icons/*',
+          'app/lib/index.html',
+          'app/manifest.json',
+          'app/main.js'
         ],
-        tasks: [ 'less', 'copy:statics' ]
+        tasks: [ 'copy:statics' ]
+      },
+
+      less: {
+        files: [
+          'app/less/**/*'
+        ],
+        tasks: [ 'less' ]
       }
     },
 
@@ -48,12 +50,13 @@ module.exports = function (grunt) {
       statics: {
         files: [{
           expand: true,
-          cwd: '<%= config.src %>',
-          dest: '<%= config.dist %>',
+          cwd: 'app',
+          dest: 'dist',
           src: [
             'icons/*',
             'lib/index.html',
-            '*'
+            'manifest.json',
+            'main.js'
           ]
         }]
       },
@@ -61,8 +64,8 @@ module.exports = function (grunt) {
       font: {
         files: [{
           expand: true,
-          cwd: '<%= config.src %>/font/font',
-          dest: '<%= config.dist %>/font',
+          cwd: 'app/font/font',
+          dest: 'dist/font',
           src: [ '*' ]
         }]
       },
@@ -70,7 +73,7 @@ module.exports = function (grunt) {
       diagram_js: {
         files: [{
           src: require.resolve('diagram-js/assets/diagram-js.css'),
-          dest: '<%= config.dist %>/vendor/diagram-js/diagram-js.css'
+          dest: 'dist/vendor/diagram-js/diagram-js.css'
         }]
       }
     },
@@ -80,19 +83,15 @@ module.exports = function (grunt) {
       app: {
         options: {
           cleancss: true,
-          paths: [ '<%= config.less %>', 'node_modules' ]
+          paths: [ 'app/less', 'node_modules' ]
         },
 
         files: {
-          '<%= config.dist %>/css/app.css': [
-            '<%= config.less %>/app.less'
+          'dist/css/app.css': [
+            'app/less/app.less'
           ]
         }
       }
-    },
-
-    exec: {
-      chrome_reload: '<%= config.chrome_reload %>'
     },
 
     browserify: {
@@ -112,7 +111,7 @@ module.exports = function (grunt) {
       },
       modeler: {
         files: {
-          '<%= config.dist %>/lib/index.js': [ '<%= config.src %>/lib/index.js' ]
+          'dist/lib/index.js': [ 'app/lib/index.js' ]
         }
       },
       watchModeler: {
@@ -120,15 +119,37 @@ module.exports = function (grunt) {
           watch: true
         },
         files: {
-          '<%= config.dist %>/lib/index.js': [ '<%= config.src %>/lib/index.js' ]
+          'dist/lib/index.js': [ 'app/lib/index.js' ]
         }
       }
     }
   });
 
-  grunt.registerTask('test', [ ]);
+  grunt.registerTask('open', function() {
 
-  grunt.registerTask('open', 'exec:chrome_reload');
+    var fs = require('fs');
+
+    var exec = require('child_process').exec;
+
+    // create temp dir for log files
+    try {
+      fs.mkdirSync('tmp');
+    } catch (e) {
+      // already exists? just chill
+    }
+
+    var options = {
+      detached: true,
+      stdio: [ 'ignore', fs.openSync('tmp/app.out', 'w'), fs.openSync('tmp/app.err', 'w') ]
+    };
+
+    var chrome = exec(CHROME_BIN + ' ' + CHROME_START_OPTS.join(' '), options);
+
+    // do not wait for child
+    chrome.unref();
+  });
+
+  grunt.registerTask('test', [ ]);
 
   grunt.registerTask('build', [ 'copy', 'less', 'browserify:modeler' ]);
 
