@@ -18,7 +18,7 @@
       <div class="menu-bar">
 
         <button class="icon-new"
-                title="new BPMN diagram"
+                title="create new BPMN diagram"
                 ng-click="editor.newDiagram()">
         </button>
 
@@ -34,8 +34,8 @@
         </button>
 
         <button class="icon-save-as"
-                title="save BPMN diagram as.."
-                ng-class="{ disabled: !editor.isUnsaved() }"
+                title="save BPMN diagram as..."
+                ng-class="{ disabled: !editor.isOpen() }"
                 ng-click="editor.save(true)">
         </button>
 
@@ -53,8 +53,6 @@
                 ng-click="editor.redo()">
         </button>
       </div>
-
-      <span class="current-file"></span>
     </div>
 
     <div class="bio-content">
@@ -70,11 +68,29 @@
                 <button class="close" ng-click="editor.closeDiagram(diagram)">×</button>
               </a>
             </li>
-            <li class="entry"><a ng-click="editor.newDiagram()">+</a></li>
+            <li class="entry" ng-class="{ active: !editor.isOpen() }">
+              <a ng-click="editor.newDiagram()">+</a>
+            </li>
           </ul>
         </div>
 
         <div ng-class="{'show-diagram': editor.isActiveView('diagram'), 'show-xml': editor.isActiveView('xml')}" class="content">
+
+          <div class="bio-diagram" ng-if="!editor.isOpen()">
+
+            <div class="bio-landing-page ">
+              <h1>No open BPMN diagram</h1>
+
+              <p>
+                <button ng-click="editor.newDiagram()">create diagram</button>
+              </p>
+
+              <p>
+                <button ng-click="editor.openDiagram()">open from file system</button>
+              </p>
+
+            </div>
+          </div>
 
           <div class="bio-diagram tabs" ng-if="editor.isActive(diagram)" ng-repeat="diagram in editor.diagrams">
 

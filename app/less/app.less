@@ -10,6 +10,7 @@
 @import "_dialog";
 
 
+
 body, html {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 
@@ -70,6 +71,16 @@ body, html {
 
 .bio-diagram {
   flex: 1;
+}
+
+.bio-landing-page {
+  margin: 20% auto 0 auto;
+  max-width: 300px;
+  text-align: center;
+
+  h1 {
+    font-weight: normal;
+  }
 }
 
 button[class*=" icon-"] {
@@ -216,7 +227,7 @@ button[class*=" icon-"] {
   width: 10em;
   text-align: center;
   margin-left: 24px;
-  margin-bottom: -2px;
+  margin-bottom: -3px;
   background-color: #EAEAEA;
   transition: background-color 0.15s ease;
   border-radius: 3px 3px 0 0;
@@ -236,7 +247,8 @@ button[class*=" icon-"] {
 
 .bio-diagram .tabbar-bottom li.active-diagram a {
   background: white;
-  margin-top: -7px;
+  margin-top: -1px;
+  margin-bottom: 5px;
   border-top: none;
   border-radius: 0 0 3px 3px;
 
@@ -245,11 +257,13 @@ button[class*=" icon-"] {
 
 .bio-diagram .tabbar-bottom li.active-xml a {
   background: white;
+  margin-top: 5px;
   margin-bottom: -1px;
+
   border-bottom: none;
   border-radius: 3px 3px 0 0;
 
-  padding: 7px 10px;
+  padding: 6px 10px;
 }
 
 .menu-bar > * {

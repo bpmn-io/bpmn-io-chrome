@@ -28,6 +28,10 @@ function Editor($scope, dialog) {
     return this.active && this.active.unsaved;
   };
 
+  this.isOpen = function() {
+    return this.active;
+  };
+
   this.undo = function() {
     if (this.active) {
       this.active.control.undo();
