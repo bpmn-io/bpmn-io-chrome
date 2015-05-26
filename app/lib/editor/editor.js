@@ -44,10 +44,10 @@ function Editor($scope, dialog) {
     }
   };
 
-  this.saveDiagram = function(diagram, opts, done) {
-    if (typeof opts === 'function') {
-      done = opts;
-      opts = {};
+  this.saveDiagram = function(diagram, options, done) {
+    if (typeof options === 'function') {
+      done = options;
+      options = {};
     }
 
     function handleSaving(err) {
@@ -68,23 +68,16 @@ function Editor($scope, dialog) {
       } else {
         diagram.contents = xml;
 
-        if (opts.chooseDir) {
-          files.saveFileAs(diagram, handleSaving);
-        } else {
-          files.saveFile(diagram, handleSaving);
-        }
+        files.saveFile(diagram, options, handleSaving);
       }
     });
   };
 
-  this.save = function(chooseDir) {
-    var active = this.active,
-        opts = {
-          chooseDir: chooseDir
-        };
+  this.save = function(create) {
+    var active = this.active;
 
     if (active) {
-      this.saveDiagram(active, opts, function(err) {
+      this.saveDiagram(active, { create: create || false }, function(err) {
         console.log(err);
       });
     }
