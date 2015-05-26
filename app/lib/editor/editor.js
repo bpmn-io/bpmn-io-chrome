@@ -4,6 +4,8 @@ var files = require('../util/files'),
     forEach = require('lodash/collection/forEach'),
     DiagramControl = require('./diagram/control');
 
+var onDrop = require('../util/on-drop');
+
 
 function Editor($scope, dialog) {
 
@@ -110,15 +112,19 @@ function Editor($scope, dialog) {
         return console.error(err);
       }
 
-      if (file) {
-        self.diagrams.push(file);
-        self.showDiagram(file);
-
-        self.persist();
-      }
+      self._openDiagram(file);
 
       $scope.$applyAsync();
     });
+  };
+
+  this._openDiagram = function(file) {
+    if (file) {
+      this.diagrams.push(file);
+      this.showDiagram(file);
+
+      this.persist();
+    }
   };
 
   /**
@@ -241,6 +247,17 @@ function Editor($scope, dialog) {
         $scope.$applyAsync();
       }
     });
+
+    onDiagramDrop(function(err, file) {
+
+      if (err) {
+        return console.error(err);
+      }
+
+      self._openDiagram(file);
+
+      $scope.$applyAsync();
+    });
   };
 
   this.init();
@@ -249,3 +266,28 @@ function Editor($scope, dialog) {
 Editor.$inject = [ '$scope', 'dialog' ];
 
 module.exports = Editor;
+
+
+function onDiagramDrop(callback) {
+
+  // Support dropping a single file onto this app.
+  dnd = onDrop('body', function(data) {
+    console.log(data);
+
+    var entry;
+
+    for (var i = 0; i < data.items.length; i++) {
+      var item = data.items[i];
+      if (item.kind == 'file' && item.webkitGetAsEntry()) {
+        entry = item.webkitGetAsEntry();
+        break;
+      }
+    };
+
+    if (entry) {
+      files.loadFile(entry, callback);
+    } else {
+      callback(new Error('not a diagram file'));
+    }
+  });
+}

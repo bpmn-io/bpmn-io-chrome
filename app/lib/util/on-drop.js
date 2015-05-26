@@ -1,9 +1,11 @@
 var domEvent = require('min-dom/lib/event'),
-    domQuery = require('min-dom/lib/query');
+    domQuery = require('min-dom/lib/query'),
+    domClasses = require('min-dom/lib/classes');
 
 var dropCls = 'dropping';
 
-function DnDFileController(selector, onDropCallback) {
+
+function DragAndDrop(selector, onDropCallback) {
 
   var $el = domQuery(selector);
   var $elClasses = domClasses($el);
@@ -42,10 +44,12 @@ function DnDFileController(selector, onDropCallback) {
     onDropCallback(e.dataTransfer);
   };
 
-  domEvent.on($el, 'dragenter', this.dragenter);
-  domEvent.on($el, 'dragover', this.dragover);
-  domEvent.on($el, 'dragleave', this.dragleave);
-  domEvent.on($el, 'drop', this.drop);
+  domEvent.bind($el, 'dragenter', this.dragenter);
+  domEvent.bind($el, 'dragover', this.dragover);
+  domEvent.bind($el, 'dragleave', this.dragleave);
+  domEvent.bind($el, 'drop', this.drop);
 }
 
-module.exports.Controller = DnDFileController;
+module.exports = function(selector, callback) {
+  return new DragAndDrop(selector, callback);
+};

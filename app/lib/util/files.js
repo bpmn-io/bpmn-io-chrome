@@ -1,5 +1,7 @@
 var assign = require('lodash/object/assign');
 
+var once = require('lodash/function/once');
+
 
 /**
  * Wait until IO is ready for writing
@@ -43,31 +45,40 @@ function writeFile(fileEntry, blob, done) {
     return done(new Error('no data given'));
   }
 
-  fileEntry.createWriter(function(writer) {
+  // make sure done is only called once
+  // (important in case of errors!)
+  done = once(done);
 
-    writer.onerror = function(err) {
-      console.error('write error');
-      console.error(err);
+  // retrieve a writeable file to work with
+  // (during drag'n'drop file entries are read-only)
+  chrome.fileSystem.getWritableEntry(fileEntry, function(writableEntry) {
 
-      return done(err);
-    };
+    writableEntry.createWriter(function(writer) {
 
-    writer.truncate(blob.size);
-    whenReady(writer, function(err) {
+      writer.onerror = function(err) {
+        console.error('write error');
+        console.error(err);
 
-      if (err) {
         return done(err);
-      }
-
-      writer.seek(0);
-
-      writer.onwriteend = function() {
-        return done(null);
       };
 
-      writer.write(blob);
-    });
-  }, done);
+      writer.truncate(blob.size);
+      whenReady(writer, function(err) {
+
+        if (err) {
+          return done(err);
+        }
+
+        writer.seek(0);
+
+        writer.onwriteend = function() {
+          return done(null);
+        };
+
+        writer.write(blob);
+      });
+    }, done);
+  });
 }
 
 
@@ -196,119 +207,8 @@ function saveFile(diagramFile, options, done) {
   }
 }
 
-
 module.exports.loadFile = loadFile;
 
 module.exports.openFile = openFile;
 
 module.exports.saveFile = saveFile;
-
-
-// use local storage to retain access to this file
-// chrome.storage.local.set({ 'chosenFile': chrome.fileSystem.retainEntry(theEntry)});
-
-
-/*
-function loadInitialFile(launchData) {
-  if (launchData && launchData.items && launchData.items[0]) {
-    loadFileEntry(launchData.items[0].entry);
-  } else {
-    // see if the app retained access to an earlier file or directory
-    chrome.storage.local.get('chosenFile', function(items) {
-      if (items.chosenFile) {
-        // if an entry was retained earlier, see if it can be restored
-        chrome.fileSystem.isRestorable(items.chosenFile, function(bIsRestorable) {
-          // the entry is still there, load the content
-          console.info("Restoring " + items.chosenFile);
-          chrome.fileSystem.restoreEntry(items.chosenFile, function(chosenEntry) {
-            if (chosenEntry) {
-              chosenEntry.isFile ? loadFileEntry(chosenEntry) : loadDirEntry(chosenEntry);
-            }
-          });
-        });
-      }
-    });
-  }
-}
-
-
-function viewXml(xml) {
-  viewer.importXML(xml, function(err) {
-    if (!err) {
-      console.log('success!');
-      viewer.get('canvas').zoom('fit-viewport');
-    } else {
-      console.log('something went wrong:', err);
-    }
-  });
-}
-
-
-function saveXml(fileEntry) {
-  viewer.saveXML(function(err, result) {
-    if (err) {
-      console.log(err);
-      return;
-    }
-
-    var bpmnXml = result;
-    var blob = new Blob([bpmnXml], {type: 'text/plain'});
-    writeFileEntry(fileEntry, blob, function(e) {
-      console.log('File saved');
-    });
-  });
-}
-
-newDiagramButton.addEventListener('click', function(e) {
-  viewer.createDiagram(function(err, warn) {
-    console.log("Created new diagram");
-  });
-});
-
-chooseFileButton.addEventListener('click', function(e) {
-  var accepts = [{
-    mimeTypes: ['text/*'],
-    extensions: ['bpmn', 'xml']
-  }];
-  chrome.fileSystem.chooseEntry({ type: 'openFile', accepts: accepts }, function(theEntry) {
-    if (!theEntry) {
-      output.textContent = 'No file selected.';
-      return;
-    }
-    // use local storage to retain access to this file
-    chrome.storage.local.set({ 'chosenFile': chrome.fileSystem.retainEntry(theEntry)});
-    loadFileEntry(theEntry);
-  });
-});
-
-saveFileButton.addEventListener('click', function(e) {
-  var config = {type: 'saveFile', suggestedName: chosenEntry.name};
-  chrome.fileSystem.chooseEntry(config, function(fileEntry) {
-    saveXml(fileEntry);
-    displayEntryData(fileEntry);
-  });
-});
-
-
-// Support dropping a single file onto this app.
-var dnd = new DnDFileController('body', function(data) {
-  chosenEntry = null;
-  for (var i = 0; i < data.items.length; i++) {
-    var item = data.items[i];
-    if (item.kind == 'file' && item.webkitGetAsEntry()) {
-      chosenEntry = item.webkitGetAsEntry();
-      break;
-    }
-  };
-
-  readAsText(chosenEntry, function(result) {
-    viewXml(result);
-  });
-  // Update display.
-  displayEntryData(chosenEntry);
-});
-
-
-loadInitialFile(launchData);
-
-*/
