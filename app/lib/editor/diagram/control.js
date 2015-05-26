@@ -39,6 +39,8 @@ function DiagramControl(diagramFile) {
     if (self.viewbox) {
       canvas.viewbox(self.viewbox);
     }
+
+    self.attachKeyboard();
   }
 
   modeler.on('commandStack.changed', function(e) {
@@ -75,6 +77,12 @@ function DiagramControl(diagramFile) {
     }
   };
 
+  this.attachKeyboard = function() {
+    var keyboard = modeler.get('keyboard');
+
+    keyboard.bind(document);
+  };
+
   this.save = function(done) {
     modeler.saveXML({ format: true }, function(err, xml) {
       if (typeof done === 'function') {
@@ -92,7 +100,6 @@ function DiagramControl(diagramFile) {
   modeler.on('commandStack.changed', this.save);
 
   this.attach = function(scope, element) {
-
     attachedScope = scope;
 
     element.appendChild($el);
@@ -103,16 +110,21 @@ function DiagramControl(diagramFile) {
       } else {
         modeler.createDiagram(imported);
       }
+    } else {
+      self.attachKeyboard();
     }
   };
 
   this.detach = function() {
-    var parent = $el.parentNode;
+    var parent = $el.parentNode,
+        keyboard = modeler.get('keyboard');
 
     if (parent) {
       attachedScope = null;
       parent.removeChild($el);
     }
+
+    keyboard.unbind();
   };
 
   this.undo = function() {

@@ -11,7 +11,7 @@ function Editor($scope, dialog) {
 
   var idx = 0;
 
-  this.active = null;
+  this.currentDiagram = null;
   this.diagrams = [];
   this.views = {
     diagram: true,
@@ -19,30 +19,30 @@ function Editor($scope, dialog) {
   };
 
   this.canUndo = function() {
-    return this.active && this.active.control.canUndo;
+    return this.currentDiagram && this.currentDiagram.control.canUndo;
   };
 
   this.canRedo = function() {
-    return this.active && this.active.control.canRedo;
+    return this.currentDiagram && this.currentDiagram.control.canRedo;
   };
 
   this.isUnsaved = function() {
-    return this.active && this.active.unsaved;
+    return this.currentDiagram && this.currentDiagram.unsaved;
   };
 
   this.isOpen = function() {
-    return this.active;
+    return this.currentDiagram;
   };
 
   this.undo = function() {
-    if (this.active) {
-      this.active.control.undo();
+    if (this.currentDiagram) {
+      this.currentDiagram.control.undo();
     }
   };
 
   this.redo = function() {
-    if (this.active) {
-      this.active.control.redo();
+    if (this.currentDiagram) {
+      this.currentDiagram.control.redo();
     }
   };
 
@@ -76,7 +76,7 @@ function Editor($scope, dialog) {
   };
 
   this.save = function(create) {
-    var active = this.active;
+    var active = this.currentDiagram;
 
     if (active) {
       this.saveDiagram(active, { create: create || false }, function(err) {
@@ -93,10 +93,12 @@ function Editor($scope, dialog) {
     };
 
     this.showDiagram(diagram);
+
+    $scope.$applyAsync();
   };
 
   this.isActive = function(diagram) {
-    return this.active === diagram;
+    return this.currentDiagram === diagram;
   };
 
   /**
@@ -133,7 +135,7 @@ function Editor($scope, dialog) {
    * @param  {DiagramFile} [diagram]
    */
   this.showDiagram = function(diagram) {
-    this.active = diagram;
+    this.currentDiagram = diagram;
 
     var diagrams = this.diagrams;
 
@@ -196,6 +198,8 @@ function Editor($scope, dialog) {
     } else {
       self._closeDiagram(diagram);
     }
+
+    $scope.$applyAsync();
   };
 
   this.persist = function() {
@@ -257,6 +261,43 @@ function Editor($scope, dialog) {
       self._openDiagram(file);
 
       $scope.$applyAsync();
+    });
+
+    function modifierPressed(event) {
+      return event.metaKey || event.ctrlKey;
+    }
+
+    document.addEventListener('keydown', function(e) {
+
+      // save - 83 (S) + meta/ctrl
+      if (e.keyCode === 83 && modifierPressed(e)) {
+        e.preventDefault();
+        self.save();
+      }
+
+      // save as - 83 (S) + meta/ctrl + shift
+      if (e.keyCode === 83 && (modifierPressed(e) && e.shiftKey)) {
+        e.preventDefault();
+        self.save(true);
+      }
+
+      // open - 79 (O) + meta/ctrl
+      if (e.keyCode === 79 && modifierPressed(e)) {
+        e.preventDefault();
+        self.openDiagram();
+      }
+
+      // new diagram - (T) 84 + meta/ctrl
+      if (e.keyCode === 84 && modifierPressed(e)) {
+        e.preventDefault();
+        self.newDiagram();
+      }
+
+      // close tab - (W) - 87 + meta/ctrl
+      if (e.keyCode === 87 && modifierPressed(e) && self.currentDiagram) {
+        e.preventDefault();
+        self.closeDiagram(self.currentDiagram);
+      }
     });
   };
 
