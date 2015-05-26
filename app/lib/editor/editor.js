@@ -269,32 +269,36 @@ function Editor($scope, dialog) {
 
     document.addEventListener('keydown', function(e) {
 
+      if (!modifierPressed(e)) {
+        return;
+      }
+
       // save - 83 (S) + meta/ctrl
-      if (e.keyCode === 83 && modifierPressed(e)) {
+      if (e.keyCode === 83) {
         e.preventDefault();
         self.save();
       }
 
       // save as - 83 (S) + meta/ctrl + shift
-      if (e.keyCode === 83 && (modifierPressed(e) && e.shiftKey)) {
+      if (e.keyCode === 83 && e.shiftKey) {
         e.preventDefault();
         self.save(true);
       }
 
       // open - 79 (O) + meta/ctrl
-      if (e.keyCode === 79 && modifierPressed(e)) {
+      if (e.keyCode === 79) {
         e.preventDefault();
         self.openDiagram();
       }
 
-      // new diagram - (T) 84 + meta/ctrl
-      if (e.keyCode === 84 && modifierPressed(e)) {
+      // new diagram - (T/N) 84 + meta/ctrl
+      if (e.keyCode === 84 || e.keyCode === 78) {
         e.preventDefault();
         self.newDiagram();
       }
 
       // close tab - (W) - 87 + meta/ctrl
-      if (e.keyCode === 87 && modifierPressed(e) && self.currentDiagram) {
+      if (e.keyCode === 87 && self.currentDiagram) {
         e.preventDefault();
         self.closeDiagram(self.currentDiagram);
       }
