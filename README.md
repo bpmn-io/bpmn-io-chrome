@@ -2,7 +2,7 @@
 
 This is a offline modeler for BPMN 2.0 diagrams based on [bpmn-js](https://github.com/bpmn-io/bpmn-js).
 
-![screenshot of the bpmn-js chrome app](https://raw.githubusercontent.com/bpmn-io/bpmn-js-chrome/master/docs/bpmn-io-chrome.png)
+![screenshot of the bpmn-js chrome app](https://raw.githubusercontent.com/bpmn-io/bpmn-js-chrome/master/docs/screenshot.png)
 
 
 [Get it from the Chrome Webstore](https://chrome.google.com/webstore/detail/bpmnio/hhikcjnalmkhinbomccdibaolelcpjli)
