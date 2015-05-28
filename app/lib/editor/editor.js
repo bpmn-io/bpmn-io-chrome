@@ -228,7 +228,11 @@ function Editor($scope, dialog) {
 
     var self = this;
 
+    console.debug('[editor]', 'restoring workspace');
+
     workspace.restore(function(err, config) {
+      console.debug('[editor]', 'done');
+
       if (!err) {
         assign(self, config);
       }
@@ -236,9 +240,9 @@ function Editor($scope, dialog) {
       var openEntry = workspace.getOpenEntry();
 
       if (openEntry) {
-        files.loadFile(openEntry, function(err, diagram) {
+        console.debug('[editor]', 'open diagram', openEntry);
 
-          console.log(diagram);
+        files.loadFile(openEntry, function(err, diagram) {
 
           if (!err) {
             self.showDiagram(diagram);
@@ -327,7 +331,7 @@ function onDiagramDrop(callback) {
         entry = item.webkitGetAsEntry();
         break;
       }
-    };
+    }
 
     if (entry) {
       files.loadFile(entry, callback);

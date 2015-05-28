@@ -26,14 +26,8 @@
     "storage"
   ],
   "file_handlers" : {
-    "text" : {
-        "types" : [ "*/*" ],
-        "title" : "File Opener"
-    },
-    "any": {
-      "extensions": [
-        "bpmn"
-      ]
+    "any" : {
+      "extensions" : [ "*", "bpmn", "xml" ]
     }
   }
 }

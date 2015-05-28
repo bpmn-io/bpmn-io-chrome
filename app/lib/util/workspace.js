@@ -9,7 +9,7 @@ module.exports.restore = function(done) {
     var workspace = item.workspace;
 
     if (!workspace) {
-      return { diagrams: [], active: null };
+      return done(null, { diagrams: [], active: null });
     }
 
     function restore(entry, done) {
