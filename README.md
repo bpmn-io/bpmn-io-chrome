@@ -8,7 +8,38 @@ This is a offline modeler for BPMN 2.0 diagrams based on [bpmn-js](https://githu
 [Get it from the Chrome Webstore](https://chrome.google.com/webstore/detail/bpmnio/hhikcjnalmkhinbomccdibaolelcpjli)
 
 
-## Build
+## Integrate with your OS
+
+It is possible to create a simple wrapper for the app that allows you to open local `.bpmn` files.
+
+
+#### Windows executable
+
+Create a `bpmn-io.bat` file, i.e. on your desktop:
+
+```plain
+chrome --app-id=hhikcjnalmkhinbomccdibaolelcpjli $@
+```
+
+__Hint:__ You can make this file the default application for opening `*.bpmn` files via `Open With ...`.
+
+
+#### Linux / Mac OS X executable
+
+Create a `bpmn-io` executable, i.e. under `/usr/local/bin`:
+
+```bash
+#!/bin/bash
+chrome --app-id=hhikcjnalmkhinbomccdibaolelcpjli $@
+```
+
+Execute it as `bpmn-io [bpmn-file]` or drop elements from your file system on it.
+
+
+
+## Build from Sources
+
+It is entirely possible to build the app from the sources.
 
 #### Package + Run
 
@@ -37,23 +68,6 @@ grunt auto-build
 You may customize the chromium-based browser via the `CHROME_BIN` environment variable.
 
 
-### Operating System Integration
+## License
 
-
-#### A simple binary
-
-(put to `/usr/local/bin` or the like)
-
-```bash
-#!/bin/bash
-
-APP_DIR=path-to/bpmn-js-chrome/dist
-
-chrome --load-and-launch-app="$APP_DIR" $@
-```
-
-Execute it as
-
-```
-bpmn-io foo.bpmn
-```
+MIT
