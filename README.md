@@ -1,4 +1,4 @@
-# bpmn-js chrome app
+# bpmn-io-chrome app
 
 This is a offline modeler for BPMN 2.0 diagrams based on [bpmn-js](https://github.com/bpmn-io/bpmn-js).
 
