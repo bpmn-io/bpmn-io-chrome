@@ -1,9 +1,25 @@
-// expose jquery to window
-window.jQuery = require('jquery');
+var domReady = require('domReady');
+var raf = require('raf');
 
-var angular = require('angular');
+var delegator = require('dom-delegator');
 
-var ngModule = module.exports = angular.module('app', [
-  require('./dialog').name,
-  require('./editor').name
-]);
+var App = require('./app');
+
+delegator();
+
+// Try without domReady
+
+
+domReady(function() {
+  var app = new App('body');
+
+  global.app = app;
+
+  app.on('changed', function(component) {
+    raf(function() {
+      component.update();
+    });
+  });
+
+  app.run();
+});
