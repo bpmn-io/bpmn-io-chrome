@@ -4,32 +4,37 @@ var h = require('virtual-dom/h');
 
 var Root = require('./components/root');
 
-var WriteView = require('./views/write');
-var ReadView = require('./views/read');
+var Header = require('./views/header');
+var Editor = require('./views/editor');
 
 var inherits = require('inherits');
 
 function App($parent) {
   Root.call(this, $parent);
+
+  // Bootstrap Views
+  this.header = new Header(this);
+  this.editor = new Editor(this);
 }
 
 inherits(App, Root);
 
 module.exports = App;
 
+
 App.prototype.run = function activateView() {
-  this.activateView();
-};
-
-App.prototype.activateView = function activateView(view) {
-  this.activeView = view;
-
-  this.emit('view.activate', view);
+  this.emit('app.init');
 
   this.changed();
 };
 
 App.prototype.render = function render() {
-  return h('.bpmn-chrome', [ this.activeView.render() ]);
+  return h('.container', [
+    this.header.render(),
+    h('.bio-content', [
+      h('.bio-diagrams.tabs', [
+        this.editor.render()
+      ])
+    ])
+  ]);
 };
-

@@ -22,18 +22,19 @@ function View(name, app) {
     }
   }
 
-  app.on('view.activate', activated.bind(this));
+  // this.eventBus.on('view.activate', activated.bind(this));
 }
 
 inherits(View, Child);
 
 module.exports = View;
 
+
 View.prototype.renderView = function renderView(opts, children) {
   var viewSelector = '.view.' + this.name.toLowerCase() + '-view';
 
   if (this.active) {
-    viewSelector += '.active';
+      viewSelector += '.active';
   }
 
   return h(viewSelector, opts, children);

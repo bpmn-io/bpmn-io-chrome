@@ -99,6 +99,4 @@ Tree.prototype.update = function update(previous, $el) {
   }
 };
 
-Tree.prototype.destroy = function destroy() {
-  console.log('destroyed');
-};
+Tree.prototype.destroy = function destroy() {};

@@ -17,7 +17,7 @@ function Root($parent) {
 
   this.node = h('div');
 
-  this.$el =createElement(this.node);
+  this.$el = createElement(this.node);
 
   if ($parent) {
     this.attachTo($parent);

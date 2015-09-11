@@ -13,24 +13,28 @@
   },
   "devDependencies": {
     "grunt": "^0.4.5",
-    "grunt-browserify": "^3.3.0",
-    "grunt-contrib-copy": "^0.5.0",
+    "grunt-browserify": "^4.0.0",
+    "grunt-contrib-copy": "^0.8.0",
     "grunt-contrib-less": "^1.0.0",
     "grunt-contrib-watch": "^0.6.1",
-    "load-grunt-tasks": "^0.4.0",
+    "load-grunt-tasks": "^3.2.0",
     "stringify": "^3.1.0"
   },
   "dependencies": {
+    "angular": "^1.3.14",
     "bpmn-js": "^0.11.0",
     "diagram-js": "^0.11.0",
     "diagram-js-origin": "^0.11.0",
-    "angular": "^1.3.14",
+    "dom-delegator": "^13.1.0",
+    "domready": "^1.0.8",
     "events": "^1.0.2",
+    "html-to-vdom": "^0.7.0",
     "inherits": "^2.0.1",
     "jquery": "^2.1.1",
     "lodash": "^3.0.0",
     "min-dom": "^0.2.0",
     "ng-simple-dialog": "0.0.0",
+    "raf": "^3.1.0",
     "simple-dialog": "^0.1.0",
     "virtual-dom": "^2.0.1"
   }

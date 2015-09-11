@@ -1,16 +1,18 @@
 'use strict';
 
-var Emitter = require('events');
-
 var inherits = require('inherits');
+
+var EventBus = require('../services/eventBus').class;
 
 var count = 0;
 
 function Base() {
+  EventBus.call(this);
+
   this.key = 'c' + count++;
 }
 
-inherits(Base, Emitter);
+inherits(Base, EventBus);
 
 module.exports = Base;
 
@@ -21,8 +23,9 @@ Base.prototype.render = function() {
     return this.toNode();
   }
 
-  throw new Error('subclass responsibility');
+  throw new Error('sublcass responsibility');
 };
+
 
 Base.prototype.changed = function(child) {
 

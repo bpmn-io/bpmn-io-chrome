@@ -119,7 +119,7 @@ module.exports = function (grunt) {
           watch: true
         },
         files: {
-          'dist/lib/index.js': [ 'app/lib/index.js' ]
+          'dist/lib/index.js': [ 'app/lib/**/*.js' ]
         }
       }
     }

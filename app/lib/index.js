@@ -5,17 +5,16 @@ var delegator = require('dom-delegator');
 
 var App = require('./app');
 
+var eventBus = require('./services/eventBus');
+
 delegator();
-
-// Try without domReady
-
 
 domReady(function() {
   var app = new App('body');
 
   global.app = app;
 
-  app.on('changed', function(component) {
+  eventBus.on('changed', function(component) {
     raf(function() {
       component.update();
     });
