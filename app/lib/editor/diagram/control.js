@@ -108,7 +108,7 @@ function DiagramControl(diagramFile) {
       if (diagramFile.contents) {
         modeler.importXML(diagramFile.contents, imported);
       } else {
-        modeler.createTemplate(imported);
+        modeler.createDiagram(imported);
       }
     } else {
       self.attachKeyboard();
