@@ -1,16 +1,29 @@
 @font-face {
-  font-family: 'bpmn-io';
-  src: url('../font/bpmn-io.eot?99253374');
-  src: url('../font/bpmn-io.eot?99253374#iefix') format('embedded-opentype'),
-  url('../font/bpmn-io.woff?99253374') format('woff'),
-  url('../font/bpmn-io.ttf?99253374') format('truetype'),
-  url('../font/bpmn-io.svg?99253374#bpmn-io') format('svg');
+  font-family: 'bpmn';
+  src: url('../font/bpmn.eot?99253374');
+  src: url('../font/bpmn.eot?99253374#iefix') format('embedded-opentype'),
+  url('../font/bpmn.woff?99253374') format('woff'),
+  url('../font/bpmn.ttf?99253374') format('truetype'),
+  url('../font/bpmn.svg?99253374#bpmn') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
-[class^="icon-"]:before, [class*=" icon-"]:before {
-  font-family: "bpmn-io";
+@font-face {
+  font-family: 'app';
+  src: url('../font/app.eot?99253374');
+  src: url('../font/app.eot?99253374#iefix') format('embedded-opentype'),
+  url('../font/app.woff?99253374') format('woff'),
+  url('../font/app.ttf?99253374') format('truetype'),
+  url('../font/app.svg?99253374#bpmn') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="bpmn-icon-"]:before,
+[class*=" bpmn-icon-"]:before,
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
   font-style: normal;
   font-weight: normal;
   speak: none;
@@ -26,4 +39,16 @@
   line-height: 1em;
 }
 
-@import (less) "../font/css/bpmn-io-codes.css";
+[class^="bpmn-icon-"]:before,
+[class*=" bpmn-icon-"]:before {
+  font-family: "bpmn";
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "app";
+}
+
+
+@import (less) "../font/css/bpmn-codes.css";
+@import (less) "../font/css/app-codes.css";
