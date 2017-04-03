@@ -1,3 +1,6 @@
+> This project is not under active development anymore. One of the reasons is that [Google discontinued](https://blog.chromium.org/2016/08/from-chrome-apps-to-web.html the underlying technology stack). Consider using the [Camunda Modeler](https://github.com/camunda/camunda-modeler) as a worthy offline modeler replacement.
+
+
 # bpmn-io-chrome app
 
 This is a offline modeler for BPMN 2.0 diagrams based on [bpmn-js](https://github.com/bpmn-io/bpmn-js).
